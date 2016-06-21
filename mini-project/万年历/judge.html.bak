@@ -1,0 +1,81 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+	<body>
+	<script>
+		 alert(judgeMonth(1,true));
+		//此函数实现判断用户输入的年份是闰年还是平年,测试成功
+		function judgeYear(year){
+			var flag  = true;//默认是闰年
+			//这里的话我就复用java中的那段代码了
+			if(year%4==0){
+				if(year%100!=0){
+					//不执行任何操作
+				}else{
+					if(year%400==0){
+						//不执行任何操作	
+					}else{
+						flag=false;
+					}
+				}
+			}else{
+				flag = false;
+			}
+			//flag为true的话就是闰年,否则是平年
+			return flag;
+		}
+		//判断那个月有多少天?
+		function judgeMonth(month,flag){//参数说明,month就是传入的月份,flag是一个标志位,标志着这个月的年份是闰年还是?
+			//说白了,flag参数只为2月服务
+			var result = 0;
+			switch(month){//在这里的话我就不对javascript传给我们的月份值做加工了,那样反倒容易出错
+				case 0:
+					result = 31;
+					break;
+				case 1:
+					if(flag==true){
+						result = 28;
+					}else{
+						result = 29;
+					}//
+					break;
+				case 2:
+					result = 31;
+					break;
+				case 3:
+					result = 30;
+					break;
+				case 4:
+					result = 31;
+					break;
+				case 5:
+					result = 30;
+					break;
+				case 6:
+					result = 31;
+					break;
+				case 7:
+					result = 31;
+					break;
+				case 8:
+					result = 30;
+					break;
+				case 9:
+					result = 31;
+					break;
+				case 10:
+					result = 30;
+					break;
+				case 11:
+					result = 31;
+					break;
+				default:
+					break;
+			}
+			return result;//表示每个月的天数
+		}
+	</script>
+	</body>
+</html>

@@ -1,0 +1,121 @@
+﻿<html>
+	<head>
+    	<title>
+        	<方格点灯>
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    </head>
+    <body>
+    	<center>
+        	<font style="font-size:60px">方格点灯</font>
+            <hr>
+            请选择关数：<select onchange="createTable(this.value)" id = "nose">
+            <option value = '0' >请选择</option>
+            <option value = '1' selected = "selected" >1</option>
+            <option value = '2' >2</option>
+            <option value = '3' >3</option>
+            <option value = '4' >4</option>
+            <option value = '5' >5</option>
+            <option value = '6' >6</option>
+            <option value = '7' >7</option>
+            <option value = '8' >8</option>
+            <option value = '9' >9</option>
+            <option value = '10' >10</option>
+            </select>
+            <input type="button" onclick = "createTable()">
+            <hr>
+            <!--绘制游戏界面-->
+            <table width = "160px" height = "160px" id = "gameViewTable">
+            <!--1-->
+            <tr>
+            	<td onclick="cellClick('0,0')" id = "0,0" style="background-color:black"> </td>
+                <td onclick="cellClick('0,1')" id = "0,1" style="background-color:black"> </td>
+                <td onclick="cellClick('0,2')" id = "0,2" style="background-color:black"> </td>
+            </tr>
+            <!--2-->
+            <tr>
+            	<td onclick="cellClick('1,0')" id = "1,0" style="background-color:black"> </td>
+                <td onclick="cellClick('1,1')" id = "1,1" style="background-color:black"> </td>
+                <td onclick="cellClick('1,2')" id = "1,2" style="background-color:black"> </td>
+            </tr>
+            <!--3-->
+            <tr>
+            	<td onclick="cellClick('2,0')" id = "2,0" style="background-color:black"> </td>
+                <td onclick="cellClick('2,1')" id = "2,1" style="background-color:black"> </td>
+                <td onclick="cellClick('2,2')" id = "2,2" style="background-color:black"> </td>
+            </tr>
+            </table>
+            <hr>
+        </center>
+        	<ol>
+            	<li>关卡：默认为第三关，玩家可以选择关卡直接进入。当玩家通过了一个关卡程序提示进入下一关。
+				<li>规则：点击某个黑色的方格，那么方格和它相邻的上下左右方格颜色会发生改。改变的规则是黑色白色。当黑色的方框全部变白，提示通关，并进入下一关。
+				<li>加入倒计时的功能！
+            </ol>
+    </body>
+    <script>
+    	//单元格的点击处理函数
+		function cellClick(cellId){
+			//字符串分割函数
+			var cellPoint = cellId.split(",");
+			//取得行列值
+			var x = cellPoint[0];
+			var y = cellPoint[1];
+			//计算当前坐标的上下左右坐标
+			var up = (parseInt(x)-1)+ "," +y;//上
+			var down = (parseInt(x)+1)+ "," +y;//下
+			var left = x + "," +(parseInt(y)-1);//左
+			var right = x + "," +(parseInt(y)+1);//右
+			//测试
+			//alert("当前坐标:"+cellPoint+"左右坐标:"+left+"=="+right+"==上下坐标:"+up+"=="+down);
+			//改变颜色
+			changeColor(up);
+			changeColor(down);
+			changeColor(left);
+			changeColor(right);
+			changeColor(cellPoint);
+			//判断是否通关
+			if(isPass()){
+				if(confirm("您已经通关，是否进入下一关！")){
+					alert("下一关正在创建！");
+				}
+			}
+			
+		}
+		//改变方格颜色得函数
+		function changeColor(cellId){
+			//当前的对象
+			var cellPoint = document.getElementById(cellId);
+			//补丁修复，这里很是有趣！
+			if(cellPoint!=null)
+			{
+				if(cellPoint.style.backgroundColor=="black")
+				{
+					cellPoint.style.backgroundColor="white"
+				}else{
+					cellPoint.style.backgroundColor="black"
+				}
+			}
+		}
+		//检测是否通关
+		function isPass(){
+			//标志位的选取，在程序里经常用到这样的一个套路。默认通关
+			var result = true;
+			//获得table对象
+			var table = document.getElementById("gameViewTable");
+			//获取表格的行数，行数和列数是一致的
+			var count=table.rows.length;
+			//alert(count);
+			for(var i = 0;i<count;i++){
+				var tableTr = table.rows[i];//获取当前行
+				for(var j = 0;j<count;j++){
+					if(tableTr.cells[j].style.backgroundColor!="white"){
+						result = false;
+					}	
+				}
+			}
+			return result;
+		}
+    </script>
+</html>

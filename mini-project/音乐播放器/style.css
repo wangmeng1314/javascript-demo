@@ -1,0 +1,12 @@
+p{
+	font-size:20px;
+	color:CC6633;
+}
+p,h1{
+	font-weight:bold;
+	line-height:300%;
+}
+body{
+	text-align:center; 
+	background-attachment:fixed
+}

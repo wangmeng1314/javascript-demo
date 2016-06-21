@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>网页音乐盒</title>
+        <bgsound src="img/我愿意.mp3" />
+  		<style type="text/css">
+            p,h1{
+                line-height:300%;
+                font-weight:bold;
+            }
+			p {font-size:24px};
+         </style>  
+         <script language="javascript">
+			var pos=0;
+			function scrollPos(){
+				if(pos<1200){
+					pos++;
+					scroll(0,pos);//控制滚动条
+					setTimeout("scrollPos()",110);
+					/* setTimeout()是设定一个指定等候时间（单位是毫秒，1秒=1000毫秒），
+					时间到了，浏览器就会执行一function，
+					在这里根据歌曲节奏调整歌词移动快慢 */
+				}
+			}
+			scrollPos();
+ 		 </script>    
+    </head>
+    
+    <body background="img/bkg.jpg" style="text-align:center; background-attachment:fixed">
+        <h1 style=" color:#00FF00">我愿意<img src="img/2401.gif" /></h1>
+  		<p>&nbsp;</p>
+        <p style=" color:#FF00CC">思念是一种很玄的东西。<img src="img/2401.gif" /></p>
+        <p style=" color:#FFFF00">如影~随形<img src="img/2402.gif" /></p> 
+        <p style=" color:#00FFFF">无声又无息出没在心底。<img src="img/2403.gif" /></p>
+        <p style=" color:#99CC00">转眼~吞没我在寂 <img src="img/2404.gif" /></p>
+        <p style=" color:#CC0066">我无力抗拒  特别是夜里  喔~<img src="img/2405.gif" /></p> 
+        <p style=" color:#FFFF66">想你到无法呼吸 <img src="img/2406.gif" /></p>
+        <p style=" color:#66FFFF">恨不能立即  朝你狂奔去 <img src="img/2407.gif" /></p>
+        <p style=" color:#CC3366">大声的告诉你~<img src="img/2408.gif" /></p>
+        <p style=" color:#990099">愿意为你  我愿意为你<img src="img/2409.gif" /></p>
+        <p style=" color:#99FF66">我愿意为你  忘记我姓名<img src="img/2410.gif" /></p>
+        <p style=" color:#CC33CC">就算多一秒  停留在你怀里<img src="img/2411.gif" /></p>
+        <p style=" color:#FFFF00">失去世界也不可惜<img src="img/2412.gif" /></p>
+        <p style=" color:#33FF00">我愿意为你  我愿意为你<img src="img/2413.gif" /></p>
+        <p style=" color:#FF0000">我愿意为你  被放逐天际<img src="img/2414.gif" /></p>
+        <p style=" color:#33FFFF">只要你真心  拿爱与我回应<img src="img/2415.gif" /></p>
+        <p style=" color:#FF0033">什么都愿意<img src="img/2416.gif" /></p>
+        <p style=" color:#FF0033">什么都愿意  为你<img src="img/2413.gif" /></p>
+
+        <pre>
+
+               　 ┏━━┓我　　　●╭○╮　 我┏━━┓　
+                  ┃天长┃想°☆ /█∨█\ ☆  爱┃曾经┃　
+                　┃地久┃你　　　∏　∏　　 你┃拥有┃　
+                　┗━━┛　 ·☆爱你一生☆·　┗━━┛        
+        </pre>
+    </body>
+</html>

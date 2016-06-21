@@ -1,0 +1,189 @@
+<html>
+	<head>
+		<title>计算器</title>
+	</head>
+	<body>
+	<!--绘制数据表格-->
+		<table border = "1px" align = "center">
+			<!--绘制数据显示区域-->
+			<tr>
+				<td colspan ="4" ><input  type = "button" value ="梦梦计算器" style = "width:220px;height:50px;font-size:20px" readonly = "readonly"></td>
+			</tr>
+			<tr>
+				<td colspan ="4" ><input type = "text" value ="" style = "width:220px;height:50px;font-size:20px" readonly = "readonly"  id = "output"></td>
+			</tr>
+			<tr>
+				<td ><input onClick = "cellClick('7')" type = "button" value ="7" style = "width:50px;height:50px;font-size:20px" id = "7"></td>
+				<td ><input onClick = "cellClick('8')" type = "button" value ="8" style = "width:50px;height:50px;font-size:20px" id = "8"></td>
+				<td ><input onClick = "cellClick('9')" type = "button" value ="9" style = "width:50px;height:50px;font-size:20px" id = "9"></td></td>
+				<td ><input onClick = "cellClick('add')" type = "button" value ="+" style = "width:50px;height:50px;font-size:20px" id = "add"></td>
+			</tr>
+			<tr>
+				<td ><input onClick = "cellClick('4')" type = "button" value ="4" style = "width:50px;height:50px;font-size:20px" id = "4"></td>
+				<td ><input onClick = "cellClick('5')" type = "button" value ="5" style = "width:50px;height:50px;font-size:20px" id = "5"></td>
+				<td ><input onClick = "cellClick('6')" type = "button" value ="6" style = "width:50px;height:50px;font-size:20px" id = "6"></td>
+				<td ><input onClick = "cellClick('sub')" type = "button" value ="-" style = "width:50px;height:50px;font-size:20px" id = "sub"></td>
+			</tr>
+			<tr>
+				<td ><input onClick = "cellClick('1')" type = "button" value ="1" style = "width:50px;height:50px;font-size:20px" id = "1"></td>
+				<td ><input onClick = "cellClick('2')" type = "button" value ="2" style = "width:50px;height:50px;font-size:20px" id = "2"></td>
+				<td ><input onClick = "cellClick('3')" type = "button" value ="3" style = "width:50px;height:50px;font-size:20px" id = "3"></td>
+				<td ><input onClick = "cellClick('div')" type = "button" value ="/" style = "width:50px;height:50px;font-size:20px" id = "div"></td>
+			</tr>
+			<tr>
+				<td ><input onClick = "cellClick('0')" type = "button" value ="0" style = "width:50px;height:50px;font-size:20px" id = "0"></td>
+				<td ><input onClick = "cellClick('dot')" type = "button" value ="." style = "width:50px;height:50px;font-size:20px" id = "dot"></td>
+				<td ><input onClick = "cellClick('mult')" type = "button" value ="*" style = "width:50px;height:50px;font-size:20px" id = "mult"></td>
+				<td ><input onClick = "cellClick('equal')" type = "button" value ="=" style = "width:50px;height:50px;font-size:20px" id = "equal"></td>
+			</tr>
+		</table>
+		<script	lanuage = "javascript">
+		//操作数
+		var num1 = "";
+		var num2 = "";
+		//运算符
+		var operator="";
+		function cellClick(id){
+			var idte = id;
+			//说明需要执行操作
+			if(idte=="equal"){
+				calc(num1,num2,operator);
+			}
+			//点击加减乘除的时候,都需要清除掉信息
+			//运算符
+			if(idte=="add"){
+				operator="add";
+				var cell = $("output");
+				if(cell!=null){
+					//设置输出窗口为空
+					cell.value="";
+				}
+			}
+			if(idte=="sub"){
+				operator="sub";
+				var cell = $("output");
+				if(cell!=null){
+					//设置输出窗口为空
+					cell.value="";
+				}
+			}
+			if(idte=="div"){
+				operator="div";
+				var cell = $("output");
+				if(cell!=null){
+					//设置输出窗口为空
+					cell.value="";
+				}
+			}
+			if(idte=="mult"){
+				operator="mult";
+				var cell = $("output");
+				if(cell!=null){
+					//设置输出窗口为空
+					cell.value="";
+				}
+			}
+			//数字
+			var n = parseInt(idte);
+			if(n>=0&&n<=9||idte=="."){
+				if(operator==""){
+					num1+=idte;
+					//将得到的值放入输出框中去
+					var cell = $("output");
+					if(cell!=""){
+						//设置输出窗口为空
+						cell.value=num1;
+					}
+				}else{
+					//将得到的值放入输出框中去
+					num2+=idte;
+					var cell = $("output");
+					if(cell!=null){
+						//设置输出窗口为空
+						cell.value=num2;
+					}
+				}
+			}
+		}
+		//计算函数
+		function calc(num1,num2,operator){
+			//加减乘除,算法核心
+			var result = 0;
+			if(operator=="add"){
+				add(num1,num2);
+			}
+			if(operator=="sub"){
+				subnum(num1,num2);
+			}
+			if(operator=="div"){
+				div(num1,num2);
+			}
+			if(operator=="mult"){
+				mult(num1,num2);
+			}
+			//复位
+			setTimeout("sour()",1500);
+		}
+		//复位
+		function sour(){
+			num1 ="";
+			num2 ="";
+			operator="";
+			var cell = $("output");
+			if(cell!=null){
+				//设置输出窗口为空
+				cell.value="";
+			}
+		}
+		//加法运算
+		function add(num1,num2){
+			var n1 = parseInt(num1);
+			var n2 = parseInt(num2);
+			result=n1+n2;
+			var cell = $("output");
+			if(cell!=null){
+				//设置输出窗口为空
+				cell.value=result;
+			}
+		}
+		//减法运算
+		function subnum(num1,num2){
+			var n1 = parseInt(num1);
+			var n2 = parseInt(num2);
+			result=n1-n2;
+			var cell = $("output");
+			if(cell!=null){
+				//设置输出窗口为空
+				cell.value=result;
+			}
+		}
+		//除法运算
+		function div(num1,num2){
+			var n1 = parseInt(num1);
+			var n2 = parseInt(num2);
+			result=n1/n2;
+			var cell = $("output");
+			if(cell!=null){
+				//设置输出窗口为空
+				cell.value=result;
+			}
+		}
+		//乘法运算
+		function mult(num1,num2){
+			var n1 = parseInt(num1);
+			var n2 = parseInt(num2);
+			result=n1*n2;
+			var cell = $("output");
+			if(cell!=null){
+				//设置输出窗口为空
+				cell.value=result;
+			}
+		}
+		//根据id返回实例对象
+		function $(id){
+			var temp = document.getElementById(id);
+			return temp;
+		}
+		</script>
+	</body>
+</html>

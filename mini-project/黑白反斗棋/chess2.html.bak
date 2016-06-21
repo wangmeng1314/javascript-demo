@@ -1,0 +1,141 @@
+<html>
+	<head>
+    	<title>
+        	<方格点灯>
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    </head>
+    <body>
+    	<center>
+        		<marquee behavior = alternate><font style="font-size:60px">方格点灯</font></marquee>
+            <hr>
+            请选择关数：<select  id = "game_select">
+            <option value = '0' >请选择</option>
+            <option value = '1'  >1</option>
+            <option value = '2' selected = "selected">2</option>
+            <option value = '3' >3</option>
+            <option value = '4' >4</option>
+            <option value = '5' >5</option>
+            <option value = '6' >6</option>
+            <option value = '7' >7</option>
+            <option value = '8' >8</option>
+            <option value = '9' >9</option>
+            <option value = '10' >10</option>
+            </select>
+            <input type="button" value= "选择" onclick = "createTable()">
+            <div id="div_content"></div>
+            <hr>
+        </center>
+        	<ol>
+          	<li>关卡：默认为第三关，玩家可以选择关卡直接进入。当玩家通过了一个关卡程序提示进入下一关。
+				  	<li>规则：点击某个黑色的方格，那么方格和它相邻的上下左右方格颜色会发生改。改变的规则是黑色白色。当黑色的方框全部变白，提示通关，并进入下一关。
+          </ol>
+    </body>
+    <script>
+    	window.onload = function(){
+		createTable();
+		}
+		<!--绘制表格对象-->
+		function createTable(){
+			var divContent = document.getElementById("div_content");//获取游戏的容器
+			var tableGame   = document.getElementById("tableGame");//获取表格对象
+			if(tableGame!=null){
+				divContent.removeChild(tableGame);
+			}
+			var gameSelect = document.getElementById("game_select").value;
+			//动态创建标签
+			var table = document.createElement("table");
+			table.border = "3px";
+			table.id ="tableGame";
+			
+			for(var i=0;i<gameSelect;i++){//外层控制行数
+				//添加一行
+				var row = table.insertRow();
+				for(var j=0; j<gameSelect;j++){//内层控制列数
+					var cell = row.insertCell();
+					cell.innerText=i+","+j;
+					cell.id =i+","+j;
+					
+					cell.width = "80px";
+					cell.height = "80px";
+					cell.onclick = cellClick;
+					cell.onMouseOver=onMouseOver1;
+					cell.style.backgroundColor = "black";
+				}
+			}
+			//将表格加入到div容器中
+			divContent.appendChild(table);
+		}
+		<!--点击事件处理-->
+		function cellClick(){
+			//event是html为我们提供的
+			var cell=event.srcElement.innerText;
+			//字符串分割函数
+			var cellPoint = cell.split(",");
+			//取得行列值
+			var x = cellPoint[0];
+			var y = cellPoint[1];
+			//alert(x+y);
+			//计算当前坐标的上下左右坐标
+			var up = (parseInt(x)-1)+ "," +y;//上
+			var down = (parseInt(x)+1)+ "," +y;//下
+			var left = x + "," +(parseInt(y)-1);//左
+			var right = x + "," +(parseInt(y)+1);//右
+			//测试
+			//alert("当前坐标:"+cellPoint+"左右坐标:"+left+"=="+right+"==上下坐标:"+up+"=="+down);
+			//改变颜色
+			changeColor(up);
+			//alert("hello");
+			changeColor(down);
+			changeColor(left);
+			changeColor(right);
+			changeColor(cell);
+			//alert("hello");
+			//检测是否通关
+			if(isPass()){
+				if(confirm("恭喜您过关，是否进入下一关！")){
+					var gameSelect = document.getElementById("game_select");
+					gameSelect.selectedIndex=gameSelect.selectedIndex+1;
+					createTable();
+				}
+			}
+		}
+		
+		<!--改变颜色-->
+		function changeColor(cellId){
+				var cell=document.getElementById(cellId);
+				if(cell!=null){
+					if(cell.style.backgroundColor=="white"){
+						cell.style.backgroundColor="black";
+					}else{
+						cell.style.backgroundColor="white";
+					}
+				}
+		}
+		<!--是否通关-->
+		function isPass(){
+			//标志位的选取，在程序里经常用到这样的一个套路。默认通关
+			var result = true;
+			//获得table对象
+			var table = document.getElementById("tableGame");
+			//获取表格的行数，行数和列数是一致的
+			var count=table.rows.length;
+			//alert(count);
+			for(var i = 0;i<count;i++){
+				var tableTr = table.rows[i];//获取当前行
+				for(var j = 0;j<count;j++){
+					if(tableTr.cells[j].style.backgroundColor!="white"){
+						result = false;
+					}	
+				}
+			}
+			return result;
+		}
+		function onMouseOver1(){
+				var cell=event.srcElement.innerText;
+				alert("hello");
+			}
+		
+    </script>
+</html>

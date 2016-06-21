@@ -1,0 +1,51 @@
+﻿<html>
+ <head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <title>超强大脑</title>
+ </head>
+  <body>
+		<div id="div_content" style="width:screen.width;height:30px;background-color:red"> </div>
+		<center> 
+			<br>
+			<form>
+			<select id = "game_select">
+				<option value="3" selected="selected">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+			</select>
+			</form>
+			<input type ="button" value = "初始化" onclick ="createTable(document.getElementById('game_select').value)" >
+			<input type = "button"  value ="开始游戏" onclick ="timeCount()" >
+			<input type = "button"  value ="温馨提示"  onclick = "myHelp()">
+			<input  type = "text" id = "txt">
+			<h2 >five seconds to memorado </h2>
+			<h2 >stick start  </h2>
+			<div id = "content"></div>
+		</center>
+  </body>
+  <!--开始-- 
+  javascript函数一览表：
+  *1.界面相关：
+  *createTable（）------------------生成表格，初始化游戏，是本程序中的主函数
+  *2.生成数组相关：
+  *insertArray（）------------------生成需要插入数据的数组                        
+  *createRandom1(number)----------生成插入Id的数组的奇数版本                          								 
+  *createRandom2(number)----------生成插入Id的数组的偶数版本  
+  *createHelpArray()--------------生成帮助提示的数组
+  *removeVal(val)-----------------从帮助数组中移除不需要的元素 
+  *arrayInsert()------------------将生成好的插入数组按照索引表插入                       							   
+  *3.改变颜色相关：
+  *changeColorToblack()-----------将背景色全部变黑                                     									
+  *changeColorTowhite()-----------将背景色全部变白         
+  *4.处理事件相关：
+  *cellClick()--------------------处理点击事件      
+  *myHelp()-----------------------处理帮助事件   
+  *isPass()----------------------处理是否通关          
+  *5.定时器相关：
+  *timeCount()--------------------处理游戏倒计时          
+  *6.改造原有函数相关：        
+  * $(oid)------------------------得到传入id的对象      
+  !--结束-->
+  <script charset = "gb2312" type = "text/javascript" src ="source.js"></script>
+</html>

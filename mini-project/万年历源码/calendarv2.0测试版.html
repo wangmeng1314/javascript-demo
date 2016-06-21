@@ -1,0 +1,328 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>calendar</title>
+		<h1 align= "center">万年历</h1>
+	</head>
+	<body>
+	<center>
+		<!--按钮选择的区域-->
+		<input type = "button" value = "生成日历" id ="mybutton" onclick = "loadCalendar()">
+		<input type = "button" value = "上一月" id ="last" onclick = "lastMonth()">
+		<input type = "button" value = "下一月" id ="next" onclick = "nextMonth()">
+		<!--年份选择的区域-->
+		<select id = "year_select">
+			<option value="2000">2000年</option>
+			<option value="2001">2001年</option>
+			<option value="2002">2002年</option>
+			<option value="2003">2003年</option>
+			<option value="2004">2004年</option>
+			<option value="2005">2005年</option>
+			<option value="2006">2006年</option>
+			<option value="2007">2007年</option>
+			<option value="2008">2008年</option>
+			<option value="2009">2009年</option>
+			<option value="2010">2010年</option>
+			<option value="2011">2011年</option>
+			<option value="2012">2012年</option>
+			<option value="2013">2013年</option>
+			<option value="2014">2014年</option>
+			<option value="2015" selected="selected">2015年</option>
+			<option value="2016">2016年</option>
+			<option value="2017">2017年</option>
+			<option value="2018">2018年</option>
+			<option value="2019">2019年</option>
+			<option value="2020">2020年</option>
+		</select>
+		<!--月份选择的区域-->
+		<select id = "month_select">
+			<option value="0">一月</option>
+			<option value="1">二月</option>
+			<option value="2">三月</option>
+			<option value="3">四月</option>
+			<option value="4">五月</option>
+			<option value="5" selected="selected">六月</option>
+			<option value="6">七月</option>
+			<option value="7">八月</option>
+			<option value="8">九月</option>
+			<option value="9">十月</option>
+			<option value="10">十一月</option>
+			<option value="11">十二月</option>
+			<option value="12">		  </option>	
+			<!--这里的话刚才遇到了一个很棘手的问题,就是没有12的时候,一直加一怎磨都到不了12的,因为你取得的是月份的对象的索引值,当引以为戒!-->
+		</select>
+		<!--放置表格的区域-->
+		<div id ="content">	</div>
+		<div>
+			<table id="informationTable" border="4px" width="300px" height ="60px">
+				<td>
+					<tr>
+					</tr>
+				</td>
+				
+				
+			</table>
+		</div>
+		<h2>版权所有:@铭心</h2>
+	<!--javascript代码开始-->
+	<script>
+	/***********************************************************************************************/
+	//函数调用区域
+	/***********************************************************************************************/
+	//参数二的话还在修改当中,这里的话在加载的时候就开始绘制当前日期的日历
+	//dateGetmonth();//测试成功
+	createTable(dateGetweek(),dateGetmonth());
+	//alert(getMyDate());需要的参数生成成功
+	/***********************************************************************************************/
+	//变量定义区域
+	/***********************************************************************************************/
+	
+	/***********************************************************************************************/
+	//函数定义区域
+	/***********************************************************************************************/
+
+	/**************************************逻辑核心开始*******************************************/
+	function loadCalendar(){
+		var week$month= getMyDate();
+		//alert(week$month);
+		var days =week$month.split(",");
+		var week = days[0];
+		var month = days[1];
+		createTable(week,month);
+	}
+	//显示上一个月,直接显示
+	function lastMonth(){
+		var month =$("month_select");
+		//alert(month);
+		month.selectedIndex-=1;//在月份的当前值减一后重绘日历,现在是考虑越界的问题了,
+		//首先我们要清楚,在这个程序里,我们的月份的返回值是0~11,也就是说,一旦到了大于11或者小于0,我们就必须为月份重新赋值,这在每一次点击按钮都需要处理,且改变当时的年份默认值.
+		if(month.selectedIndex<0){
+			var year =$("year_select");//取得年份选择对象
+			//alert(year);
+			year.selectedIndex-=1;//在当前的年份值上减一
+			month.selectedIndex=11;//给月份赋初值
+		}
+		loadCalendar();//重绘日历
+	}
+	//显示下一个月,直接显示
+	function nextMonth(){
+		var month =$("month_select");
+		//alert(month);
+		month.selectedIndex+=1;
+		//alert(month.selectedIndex);
+		//alert(month.selectedIndex);
+		if(month.selectedIndex>11){
+			var year =$("year_select");//取得年份选择对象
+			//alert(year);
+			year.selectedIndex=year.selectedIndex+1;//在当前的年份值上加一,这个位置为何没有实现加一的功能
+			month.selectedIndex=0;//给月份赋初值
+		}
+		loadCalendar();//重绘日历
+	}
+	/**************************************逻辑核心结束*******************************************/
+
+	/*****************************************绘制表格开始*******************************************************/
+	//创建容纳日历的表格,现在主要的问题就落在了如何判断用户输入的年对应的那个月的一号是周几
+	function createTable(hello,hello1){//传入的参数是确定是周几,周几的话只能确定,从哪个地方开始,无法确定从哪里结束
+			//alert(week);测试传入参数成功
+			//原来问题出在传入的参数不是数字
+			//改变参数类型
+			var week = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+			var circle = parseInt(hello);
+			var day =parseInt(hello1);
+			//alert(circle);
+			var tt = $("mytable");
+			//alert(tt);第一次的话,下面都没有执行,连table都没有产生,当然就是null
+			if(tt!=null){
+				$("content").removeChild(tt);
+			}
+			//alert(week);数组的生成测试通过
+			var table = document.createElement("table");
+			table.id="mytable";//这是为了方便别处调用吧!
+			//alert(table.id);
+			table.border = "4px";
+			table.align="center";
+			var tempId = 1;
+			for(var i =1;i<=7;i++){
+				var row = table.insertRow();//插入行
+				for(var j =1;j<=7;j++){
+					//首先插入星期几
+					if(i==1){
+						var cell = row.insertCell();//插入列
+						//cell.id=i*j;//给每个单元格赋值id
+						cell.height="60px";
+						cell.width="60px";
+						cell.innerHTML=week[i*j-1];//这里插入的时候怎么会出现这样的结果,
+						cell.style.color="black";
+						cell.style.backgroundColor="purple";
+						//这里是静态的,所以呢,不需要赋值id了,免得把我们自己搞的混乱了!
+						//alert(cell.id);
+					}else{
+						var cell = row.insertCell();//插入列
+						cell.height="60px";
+						cell.width="60px";
+						if(tempId<circle+1){//采用这个方法后,这个参数的话应该是星期几
+							tempId++;
+							cell.innerHTML="&nbsp";//没有内容的表格显示的不太好,但是加入空格就可以正常显示
+							cell.style.backgroundColor="blue";
+						}else{
+							cell.innerHTML=tempId-circle;//此处亦然
+							cell.style.color="purple";
+							cell.style.backgroundColor="yellow";
+							//添加处理函数
+							cell.onclick=insertInformation;
+							tempId++;
+							if(tempId>=(day+2)+circle){//这个地方的话其实判断一下本月有几天即可
+								cell.innerHTML="&nbsp";	
+								cell.style.backgroundColor="purple";
+							}
+						}
+						
+					}
+				}
+			}//在这里的话,我想可以这样做,取得星期数的话得到的是
+			var content = document.getElementById("content");
+			//alert(content);
+			content.appendChild(table);
+			//在div区域绘制表格
+	}//最笨的方法就是把这个函数写出来四份,适合四种不同的情况
+	/*****************************************绘制表格结束*******************************************************/
+
+	/*****************************************当前日期时间处理开始*******************************************************/
+	//此方法用来获得当前的月有几天
+	function dateGetmonth(){
+		var date = new Date();
+		var flag =judgeYear(date.getFullYear());
+		//alert(flag);
+		var month=judgeMonth(date.getMonth(),flag);
+		//alert(num);
+		return month;
+	}
+	//创建当前日期对象,打印其到屏幕上,判断当年年月的一号是星期几
+	function dateGetweek(){
+		var date =new Date();//在用户没有执行操作的时候,保存当前的时间和日期,默认情况下的话,显示当前这个月的日历
+		//alert(date);
+		//将当前的日期打印到屏幕上供用户查看,作为参考
+		//document.write(date);暂时不打印,因为我要改当前的天数
+		//并且以此时的年月日生成日历,在页面加载的时候
+		date.setDate(1);
+		//alert(date);
+		var week = date.getDay();//获得当前日期是星期几
+		return week;
+	}
+	/*****************************************当前日期时间处理结束*******************************************************/
+
+	/******************用户输入日期处理开始************************************************************************/
+	//此函数用来得到用户输入的年月一号是星期几,并且得到那个月的天数
+	function getMyDate(){
+		var myDate=new Date();//创建用户输入的日期的保存变量
+		var year=$("year_select").value;
+		//alert(year);
+		var month=$("month_select").value;
+		//alert(month);我怎莫就能确定你没有问题,既然我不能,那就只有测试,毕竟实践出真知
+		myDate.setFullYear(year,month,1);//此方法有三个参数,可以实现对于用户选择的日期的录入,这里的话,每次都是从一号开始绘制,所以第三个参数保持不变
+		//难道就不能直接将三个year,mouth传到某个函数中去,我觉得可以
+		var week = myDate.getDay();//得到是星期几
+		//alert(week);
+		var flag =judgeYear(myDate.getFullYear());
+		var month=judgeMonth(myDate.getMonth(),flag);//得到这个月有几天
+		//alert(month);
+		var num = week+","+month;
+		return num;
+	}
+	/******************用户输入日期处理结束************************************************************************/
+	
+	/********************************算法核心开始******************************************************************/
+	//此函数实现判断用户输入的年份是闰年还是平年,测试成功
+		function judgeYear(year){
+			var flag  = true;//默认是闰年
+			//这里的话我就复用java中的那段代码了
+			if(year%4==0){
+				if(year%100!=0){
+					//不执行任何操作
+				}else{
+					if(year%400==0){
+						//不执行任何操作	
+					}else{
+						flag=false;
+					}
+				}
+			}else{
+				flag = false;
+			}
+			//flag为true的话就是闰年,否则是平年
+			return flag;
+		}
+		//判断那个月有多少天?测试成功
+		function judgeMonth(month,flag){//参数说明,month就是传入的月份,flag是一个标志位,标志着这个月的年份是闰年还是
+			//说白了,flag参数只为2月服务
+			var result = 0;
+			switch(month){//在这里的话我就不对javascript传给我们的月份值做加工了,那样反倒容易出错
+				case 0:
+					result = 31;
+					break;
+				case 1:
+					if(flag==true){
+						result = 29;
+					}else{
+						result = 28;
+					}//
+					break;
+				case 2:
+					result = 31;
+					break;
+				case 3:
+					result = 30;
+					break;
+				case 4:
+					result = 31;
+					break;
+				case 5:
+					result = 30;
+					break;
+				case 6:
+					result = 31;
+					break;
+				case 7:
+					result = 31;
+					break;
+				case 8:
+					result = 30;
+					break;
+				case 9:
+					result = 31;
+					break;
+				case 10:
+					result = 30;
+					break;
+				case 11:
+					result = 31;
+					break;
+				default:
+					break;
+			}
+			return result;//表示每个月的天数
+		}
+		/********************************算法核心结束******************************************************************/
+
+		//传入id,返回id对应的具体对象
+		function $(oid){
+			return document.getElementById(oid);
+		}
+		/*******************************附加开始******************************************/
+		function insertInformation(){
+			var informationArray=new Array("宜出行","宜婚娶","宜上学","宜告白","我爱王梦","我爱王梦","我爱王梦","我爱王梦","我爱王梦","我爱王梦");
+			//alert(informationArray);
+			//产生随机数取出数组内容inNum;
+			var inNum=(Math.random()*10);
+			//这里的话我想就要用到javascript为我们提供的event事件了
+			//var cell = event.srcElement;
+			//cell.innerHTML=informationArray[inNum];
+			$("informationTable").innerHTML=informationArray[inNum];//测试错误
+		}
+		/*******************************附加结束******************************************/
+
+	</script>
+	<!--javascript代码开始-->
+	</body>
+</html>

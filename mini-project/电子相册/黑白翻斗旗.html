@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+ <HEAD>
+  <TITLE> javaScript项目《方格点灯》 </TITLE>
+ </HEAD>
+ 
+ <BODY>
+	
+		<center>
+			<h1>《方格点灯》</h1>
+
+			请选择关数：<select onchange="createTable(this.value)" id="nose">
+				<option value='0'>请选择</option>
+				<option value='1'>1</option>
+				<option value='2'>2</option>
+				<option value='3'  selected="selected">3</option>
+				<option value='4'>4</option>
+				<option value='5'>5</option> 
+				<option value='6'>6</option> 
+				<option value='7'>7</option> 
+				<option value='8'>8</option> <option value='9'>9</option> 
+				<option value='10'>10</option> 
+				<option value='11'>11</option> 
+				<option value='12'>12</option> 
+				<option value='13'>13</option> 
+				<option value='14'>14</option> 
+				<option value='15'>15</option> 
+
+			</select>   
+		<input type="button" onclick="createTable(document.getElementById('nose').value)" value="重置">
+
+			<div id="div1"></div>
+			<span id="span1"></span>
+
+		</center>
+		<hr>
+	<pre>
+		游戏说明
+		1.点某个格子，将这个格子和周围的4个格子的颜色改变为与现有颜色相反的颜色。 
+		2.也就是说点一个格子，那么最多更改5个格子的颜色。
+		3.在四个角上，以左上角的格子为例，它没有左边和上边，那么点它，只能影响它和它右边和它下边的格子。
+		4.初始状态为全黑，通过不断的点击，让所有格子的颜色变成黄的，就算全部点亮了，这样就通了一关了。
+	
+	</pre>
+		
+ </BODY>
+
+<script> 
+	//用于创建表格对象
+	function createTable(datas){
+		var tableCheck= getObj("mytable");
+		if(tableCheck!=null){
+		//alert("已经存在");
+			//document.deleteElement("table");
+			tableCheck.parentNode.removeChild(tableCheck);
+
+		}
+		var table = document.createElement("table");
+		//table.setAttribute("border",1);
+		//table.setAttribute("cellpadding",1);
+		//table.setAttribute("cellspacing",1);
+		table.id="mytable";
+		for(var i=0;i<datas;i++){
+			var row=table.insertRow();
+			//row.bgcolor="#FF0000";
+			for(var j=0;j<datas;j++){
+				var cell=row.insertCell();
+				cell.innerHTML="行"+i+"列"+j;
+				cell.width=70;
+				cell.height=70;
+				cell.setAttribute("id",i+"-"+j);
+				cell.style.backgroundColor = "#000000";
+				cell.onclick=cellClick;
+				//cell.bgcolor="#FF0000";
+				//cell.setAttribute("width",80);
+				//cell.setAttribute("height",80);
+				//cell.setAttribute("bgcolor","#FF0000");
+				//cell.setAttribute("onclick",cellClick);
+				//style.backgroundColor = "#F0F3F9";
+			}
+		}
+		getObj('span1').insertAdjacentElement("beforeBegin",table) 
+	}
+
+	//html文档加载完成后执行的操作
+	window.onload=function(){
+		createTable(3);
+	}
+
+	//根据对象的id返回整个对象
+	function getObj(oid){
+		return  document.getElementById(oid); 
+	}
+
+	//单元格点击处理事件方法
+	//function cellClick(rowIndex,cloumIndex){
+	function cellClick(){
+		var len=getObj("nose").value;
+		// alert(event.srcElement.id);
+		var cellId=event.srcElement.id;
+		var ids=cellId.split("-");
+		var rowindex=parseInt(ids[0]);
+		var cellindex=parseInt(ids[1]);
+		//alert(rowindex);
+		//alert(cellindex);
+		changeColor(cellId);
+		if((rowindex-1)>=0){
+			changeColor(rowindex-1+"-"+cellindex);
+		}
+		if((rowindex+1)<len){
+			changeColor(rowindex+1+"-"+cellindex);
+		}
+		
+		if((cellindex-1)>=0){
+			 
+			changeColor(rowindex+"-"+(cellindex-1));
+		}
+
+		if((cellindex+1)<len){
+			 
+			changeColor(rowindex+"-"+(cellindex+1));
+		}
+		if(checkAllWhite()){
+			if(confirm("恭喜您已经通关了，是否进行下一关？")){
+				var len=getObj("nose").value;
+				//alert(parseInt(len)+1);
+				createTable(parseInt(len)+1);
+				//getObj("nose").selectedValue=parseInt(len)+1;
+				  getObj("nose").value=parseInt(len)+1; 
+				 //getObj("nose").value.options[getObj("nose").selectedIndex+1].selected = true;      
+			}
+		}
+	}
+	//改变颜色
+	function changeColor(oid){
+	//alert(oid+"<<<<<<<<");
+		//alert(getObj(oid).style.backgroundColor);
+		if(getObj(oid).style.backgroundColor=="#000000"){
+			getObj(oid).style.backgroundColor="#FFFFFF";
+		}else{
+			getObj(oid).style.backgroundColor="#000000";
+		}
+	}
+	//检查是否通关，检查所有单元格的北京颜色
+	function checkAllWhite(){
+		var len=getObj("nose").value;
+		var table=getObj("mytable");
+		var rows=table.rows;
+		var cells=rows.cells;
+		var result=true;
+		 
+		for(var i=0;i<rows.length;i++){
+			
+			for(var j=0;j<rows.length;j++){
+				// alert(rows[i].cells[j].style.backgroundColor);
+			   if(rows[i].cells[j].style.backgroundColor != "#ffffff"){
+					result=false;
+					break;
+			   }
+ 
+			}
+		}
+		return result;
+
+	}
+</script>
+
+</HTML>

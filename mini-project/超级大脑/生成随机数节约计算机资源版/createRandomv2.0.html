@@ -1,0 +1,27 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>createRandom</title>
+	</head>
+	<body>
+		<script>
+			//暂时不需要封装成函数
+			var numbers =new Array();  //保存中间变量的数组
+			var rnumbers = new Array();//保存随机数的数组
+			var num = 3;               //绘制方格的边长
+			for(var i = 0;i<num*num;i++){//给缓冲数组赋初值
+				numbers[i]=i+1;
+			}
+			//alert(numbers);
+			for(var j = 0;j<(num*num-1);j++){
+				//产生插入数组的下标
+				var subscript = parseInt((Math.random())*(num*num));
+				rnumbers[j]=numbers.slice(subscript,(subscript+1));
+				alert(rnumbers);
+			}//此方法也宣告失败，因为产生的数字重复了
+
+
+			
+		</script>
+	</body>
+</html>

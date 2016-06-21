@@ -1,0 +1,54 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>createRandom</title>
+	</head>
+	<body>
+		<script>
+			//暂时不需要封装成函数
+			//在网上查找资料时发现，打乱扑克牌的那套思想可以用在我们打乱数组的过程中，行了，闲话不多说，开始走起！
+			//但是，我发现，这好像不太适合我们现在的情景！唉许,但是，偶数的情况下还可以的！
+			var numbers = new Array();
+			var highArray=new Array();
+			var lowArray=new Array();
+			for(var i = 0;i<16;i++){
+				numbers[i]=i+1;
+			}
+			for(var j =0;j<8;j++){//前半部分
+				highArray[j]=numbers[j];
+			}
+			for(var k =8;k<16;k++){//后半部分
+				lowArray[k-8]=numbers[k];
+			}
+			//exchange
+			var index=0;
+			for(var m =0;m<8;m++){
+				highArray.splice(index,0,lowArray[m]);
+				index+=2;//这里做的非常棒，把那个地方给跳过去了，本来上一个版本里，
+				
+			}//这里虽然实现了，但是我竟然不知道为何？
+			alert(highArray);
+			index = 0;
+			for(var i =0;i<16;i++){
+				numbers[i]=highArray[i];
+			}
+			highArray.length=0;
+			for(var j =0;j<8;j++){//前半部分
+				highArray[j]=numbers[j];
+			}
+			alert(highArray);
+			for(var k =8;k<16;k++){//后半部分
+				lowArray[k-8]=numbers[k];
+			}
+			alert(lowArray);
+			for(var m =0;m<8;m++){
+				highArray.splice(index,0,lowArray[m]);
+				index+=2;//这里做的非常棒，把那个地方给跳过去了，本来上一个版本里，
+				
+			}//这里虽然实现了，但是我竟然不知道为何？
+
+			alert(highArray);
+			//我们用扑克牌洗牌的那种思想成功实现了将数组元素打乱，接下来将其封装成一个函数就好
+		</script>
+	</body>
+</html>

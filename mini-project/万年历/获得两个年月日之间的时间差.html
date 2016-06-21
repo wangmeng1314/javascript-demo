@@ -1,0 +1,24 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			test();
+			function test(){
+				var date  = new Date();//当前时间
+				var date1 = new Date();//用户输入时间
+				//alert(date);
+				//var time = date.getTime();
+				//alert(time);
+				//一天是多少毫秒呢?
+				//我来帮你计算一下:1000*60*60*24=86400000ms
+				date1.setFullYear(2014,5,9);//这里的月份刚才出现了一点小小的问题,是因为月份是从0开始的
+				var number =date.getTime()-date1.getTime();
+				number=number/86400000;
+				alert(number);
+			}//测试成功
+		</script>
+	</body>
+</html>

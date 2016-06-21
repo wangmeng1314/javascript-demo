@@ -1,0 +1,31 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>createRandom</title>
+	</head>
+	<body>
+		<script>
+			//暂时不需要封装成函数
+			var numbers =new Array();  //保存中间变量的数组
+			var rnumbers = new Array();//保存随机数的数组
+			var num = 3;               //绘制方格的边长
+			for(var i = 0;i<num*num;i++){//给缓冲数组赋初值
+				numbers[i]=i+1;
+			}
+			//alert(numbers);
+			for(var k = 0;k<10;k++){
+				for(var j = 0;j<(num*num-1);j++){
+					var subIndex = parseInt((Math.random()*(num*num+4))%(numbers.length));
+					//先返回需要的数组元素，
+					rnumbers[j]=numbers.slice(subIndex,subIndex+1);
+					numbers.splice(subIndex,1);
+				}
+				alert(rnumbers);
+				for(var i = 0;i<num*num;i++){//给缓冲数组赋初值
+				numbers[i]=i+1;
+				}
+			}
+			/*这里的核心算法是测试成功了，以后想产生这样的一个数字各不相同的数组就好办了，那种算法太消耗计算机资源了！*/
+		</script>
+	</body>
+</html>

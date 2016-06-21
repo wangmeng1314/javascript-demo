@@ -1,0 +1,86 @@
+<html>
+	<head>
+		<title>
+		你是幸运的那个人吗？
+		</title>
+	</head>
+	<body>
+		<h1 align = "center">
+		<h4 align = "center">第<font color = "red" id = "gameCount">0</font>局
+		幸运观众：<font color = "red" id = "name">---</font>	</h4>
+		</h1>
+		<hr/> 
+		<center>
+		<!-- 奖励 -->			
+		<img src = "images\美图1.jpg" id = "policePictures" width = "400" height = "600"   />
+		<!-- 开始和停止按钮 -->
+		<input type = "button"  id = "start" value = "开始" onclick = "fun_start()"/>
+		<input type = "button" id = "stop"   value = "结束" onclick =  "fun_stop()"
+		disabled = "disabled"/>
+		
+		<!-- 添加超链接 -->
+		<a href = 'https://www.baidu.com/index.php?tn=02049043_14_pg'>百度一下</a>
+		</center>
+		<br />
+		<!-- 行为的添加 -->
+		<script type = "text/javascript">
+		//alert('王梦');
+		//定义变量保存局数
+		var Tolal = 0;
+		var Tolal1 = document.getElementById("gameCount");
+		//定义变量保存幸运观众数组的下标
+		var name0 = 0;
+		var name2 = 0;
+		var name1 = document.getElementById("name");
+		//定义数组保存参与抽奖成员名
+		var images1 = new Array("夏先凯","杨福磊","希特勒","二货","圣安地列斯","毛泽东","李四","张三");
+		//定义数组保存图片
+		var images = new Array("美图1.jpg","美图2.jpg","美图3.jpg");
+		//定义变量保存按钮
+		var start1 = document.getElementById("start");
+		var stop1 = document.getElementById("stop");
+		//定义变量保存计时器的值
+		var resTime;
+		var resTime1;
+		var resTime2;
+		//定义变量保存图片
+		var policePictures =  document.getElementById("policePictures"); 
+		//按钮start工作函数
+		function fun_start(){
+			//alert('王梦');
+			//让结束按钮启用，开始失效
+			start1.disabled=true;
+			stop1.disabled=false;
+			//局数加一
+			Tolal += 1;
+			Tolal1.innerText = Tolal;
+			//调用切换人名的函数
+			changePic();
+		}
+		//切换
+		function changePic(){
+			//产生幸运观众的数组下标
+			name0 = Math.floor(Math.random()*8);
+			name2 = Math.floor(Math.random()*3);
+			
+			//改变文字显示
+			name1.innerText = images1[name0];
+			policePictures.src =  "images/"+images[name2];
+			//0.05s切换一次
+			resTime=setTimeout('changePic()',50);
+		}
+		//按钮stop工作函数
+		function fun_stop(){
+			//让结束按钮失效，开始按钮启用
+			start1.disabled = false;
+			stop1.disabled =true;
+			//停止循环
+			clearTimeout(resTime);
+		}
+		</script>
+	</body>
+</html>
+<!-- 1：怎么让选过的同学不再出现 ps：你同学有希特勒，牛！ -->
+<!-- 2：如何采取两个定时器，我感觉这个要用到多线程的东西！ -->
+
+<!-- 解决方案： -->

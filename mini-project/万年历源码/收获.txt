@@ -1,0 +1,6 @@
+1:在标示div标签的时候,我们用到了id,我在查找资料的过程中发现,还有一种方式可以用来标示,那就是class.虽然我现在不太了解class,这里的话等我们就来学习一下吧!
+<div>标签的话会让我们的页面形成块一样的类型结构,而组织它的话我们可以使用id和class,而class可以用来标示一组具有相同属性的元素.它支持的事件有如下的事件:
+onclick, ondblclick, onmousedown, onmouseup, onmouseover, 
+onmousemove, onmouseout, onkeypress, onkeydown, onkeyup.
+我觉得呢,基本上学完了这些时间也就可以实现大多数的和用户交互了! 
+

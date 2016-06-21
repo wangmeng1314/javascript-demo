@@ -1,0 +1,76 @@
+<html>
+	<head>
+    	<title>
+        My Dream!
+        </title>
+    </head>
+    <body background="tupian/bg.jpg">
+    	<!-- 居中 -->
+    	<center>
+        	<!--标题-->
+        	<h2 style="color:#CC6633">M O V I E</h2>
+            <!--div区域-->
+            <div>
+            	<img src="tupian/1.jpg" width = "500px" height = "380px" style = "border:8px double #CC0000"  id = "im1" />
+            </div> 
+           
+        </center>
+        <!--换行两次-->
+        <br/> <br/> 
+        <!-- 执行小图片的滚动显示-->
+        <marquee direction="left" scrollamount="15">
+        	<img src = "tupian/1.jpg" width = "120px" height = "100px" />
+            
+        </marquee>
+        <!--执行部分 -->
+		<script type="text/javascript">
+			 // 1:定义变量保存图片的位置
+			 //var  obj = document.getElementById ( "im1" );
+			 //2：定义变量保存hello按钮的值
+			 //var  obj1 = document.getElementById ( "btnStart" );
+			 // 3:定义变量保存循环变量
+			 var i = 0;
+			 //4：定义集合保存图片元素
+			 var myArray = new Array("tupian/1.jpg","tupian/2.jpg","tupian/3.jpg","tupian/4.jpg","tupian/5.jpg","tupian/6.jpg","tupian/7.jpg","tupian/8.jpg","tupian/9.jpg","tupian/10.jpg","tupian/11.jpg","tupian/12.jpg","tupian/13.jpg");
+			 //5：定义变量保存定时器的返回值
+			 var timer = 0;
+			 //6：定义变量保存返回值
+			 //.,var returnValue ="";
+			<!-- 定义更换图片的函数-->
+			//给这个函数一个参数吗?
+			function changeStu(){
+				var  obj = document.getElementById ( "im1" );
+				//alert("meng");
+				//obj1.disabled = true;
+				//总结：for循环是不行的
+				//i=match1+1;
+				obj.src = myArray[i];
+				i++;
+				if(13 == i){
+				i = 0;
+				}
+				timer = window.setTimeout(changeStu,1000);
+				//setTimeout(changeStu,5000);	
+			}
+			window.onload = changeStu;
+			<!-- 定义鼠标放在小图片上显示大图片的函数-->
+			function stopImage(id){
+				//停止计时器
+				window.clearTimeout(timer);
+				//获取id所对应的照片
+				var obj =  document.getElementById(id);
+				var obj1 = document.getElementById("im1");
+				obj1.src=obj.src; 
+			}
+			<!--继续大图片的变换 -->
+			function scrollImage(id){
+				//大区域继续动起来
+				//截取字符串
+			    //i = parseInt(id.substring(1))+1;
+				changeStu();
+				
+				
+			}
+        </script>
+    </body>
+</html>

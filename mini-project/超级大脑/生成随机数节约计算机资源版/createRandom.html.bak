@@ -1,0 +1,22 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>createRandom</title>
+	</head>
+	<body>
+		<script>
+			//暂时不需要封装成函数
+			var rnumbers = new Array();//保存随机数的数组
+			var num = 3;    //绘制方格的边长
+			for(var j= 0;j<8;j++)(
+				for(var i =0;i<num*num-1;i++){
+					//产生随机数作为插入下标
+					var subscript = parseInt((Math.random())*(rnumbers.length));
+					rnumbers.splice(subscript,0,(i+1));
+				}
+				alert(rnumbers);
+			)
+			
+		</script>
+	</body>
+</html>

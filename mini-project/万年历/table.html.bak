@@ -1,0 +1,64 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+	</head>
+	<body>
+		<center>
+			<!--text-->
+			<input type = "text" >
+			<input type = "text" >
+			<!--div区域-->
+			<div id = "content"> </div>
+		</center>
+		<script>
+		var week = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+		 createTable();
+		//绘制日历的表格
+		function createTable(){
+			var table = document.createElement("table");
+			table.id="mytable";//这是为了方便别处调用吧!
+			table.border = "4px";
+			table.align="center";
+			var tempId = 1;<!--  -->
+			for(var i =1;i<=7;i++){
+				var row = table.insertRow();//插入行
+				for(var j =1;j<=7;j++){
+					//首先插入星期几
+					if(i==1){
+						var cell = row.insertCell();//插入列
+						//cell.id=i*j;//给每个单元格赋值id
+						cell.height="90px";
+						cell.width="90px";
+						cell.innerHTML=week[i*(j-1)];
+					
+						//这里是静态的,所以呢,不需要赋值id了,免得把我们自己搞的混乱了!
+						//alert(cell.id);
+					}else{
+						var cell = row.insertCell();//插入列
+						cell.height="90px";
+						cell.width="90px";
+						if(tempId<=4){//采用这个方法后
+							tempId++;
+							cell.innerHTML="&nbsp";//没有内容的表格显示的不太好,但是加入空格就可以正常显示
+						}else{
+							cell.innerHTML=tempId-4;
+						
+							tempId++;
+							if(tempId==36){
+								cell.innerHTML="&nbsp";
+								
+							}
+						}
+						
+					}
+				}
+			}//在这里的话,我想可以这样做,取得星期数的话得到的是
+			var content = document.getElementById("content");
+			//alert(content);
+			content.appendChild(table);
+			//在div区域绘制表格
+		}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>欢迎光临淘宝网站</title>
+</head>
+<body>
+		<table width="1458" height="95" border="1" style="background-image:url(tupian/bg.jpg);position:absolute;top:10px;left:40px">
+  			<tr>
+       		  <td width="1448" height="89"></td>
+		    </tr>
+        </table>
+        <table width="1460" height="27" border="1" style="position:absolute; top:119px; left:41px;font-size:24px;color:#CC3366">
+		  <tr>
+            <td><div align="center"><a href="FirstDemo1.html">淘宝首页</a></div></td>
+            <td><div align="center">打折商品</div></td>
+            <td><div align="center">购物车</div></td>
+            <td><div align="center">常用站点</div></td>
+             <td><div align="center">阿里云服务</div></td>
+            <td><div align="center">技术支持</div></td>
+            <td><div align="center">联系我们</div></td>
+	 	  </tr>
+        </table>
+        <table width="398" border="1"  style="position:absolute; top:159px; left:45px; width: 395px; height: 369px;">
+          <tr>
+            <td width="388"><a href="FirstDemo1.html"><img src="tupian/1.jpg" width="388" height="369" id="movie"/></a></td>
+          </tr>
+        </table>
+         <table width="655" border="1"  style="position:absolute; top:159px; left:444px; width: 658px; height: 426px;">
+          <tr>
+            <td width="645" style="background-image:url(tupian/bg.jpg);color:#FF0000"><marquee><a href="shop.html">尊敬的用户您好,近日,我公司为反馈大家对我公司的大力支持,特进行大促销活动,详情猛戳!</a></marquee></td>
+          </tr>
+        </table>
+                <table width="23" border="1"  style="position:absolute; top:160px; left:1105px; width: 395px; height: 369px;">
+                  <tr>
+                    <td><img src="tupian/9.jpg" style="width:395px;height:369px"/></td>
+                  </tr>
+        </table>
+        <script language="javascript">
+		//定义在图片数组中读取图片的变量
+		var i =0;
+		//定义图片数组
+		var myArray = new Array("tupian/1.jpg","tupian/2.jpg","tupian/3.jpg","tupian/4.jpg","tupian/5.jpg","tupian/6.jpg","tupian/7.jpg","tupian/8.jpg","tupian/9.jpg","tupian/10.jpg","tupian/11.jpg","tupian/12.jpg","tupian/13.jpg");
+			function changeMovie(){
+				//修改变量
+				++i;
+				//修改图片
+				var obj  =$("movie");
+				obj.src = myArray[i];
+				//清零
+				if(13 == i){
+					i = 0;
+				}
+				setTimeout(changeMovie,1000);
+			}
+			function $(id){
+				return document.getElementById(id);
+			}
+			changeMovie();
+		</script>
+</body>
+</html>

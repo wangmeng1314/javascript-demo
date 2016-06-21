@@ -1,0 +1,83 @@
+<html>
+	<head>
+		<title>计算器</title>
+	</head>
+	<body>
+	<!--绘制数据表格-->
+		<table border = "1px" align = "center">
+			<!--绘制数据显示区域-->	
+			<tr>
+				<td colspan ="4" ><input  type = "button" value ="梦梦计算器" style = "width:220px;height:50px;font-size:20px" readonly = "readonly"></td>
+			</tr>
+			<tr>
+				<td colspan ="4" ><input type = "text" value ="" style = "width:220px;height:50px;font-size:20px" readonly = "readonly"  id = "output"></td>
+			</tr>
+			<tr>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="7" style = "width:50px;height:50px;font-size:20px" id = "7"></td>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="8" style = "width:50px;height:50px;font-size:20px" id = "8"></td>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="9" style = "width:50px;height:50px;font-size:20px" id = "9"></td></td>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="+" style = "width:50px;height:50px;font-size:20px" id = "add"></td>
+			</tr>
+			<tr>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="4" style = "width:50px;height:50px;font-size:20px" id = "4"></td>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="5" style = "width:50px;height:50px;font-size:20px" id = "5"></td>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="6" style = "width:50px;height:50px;font-size:20px" id = "6"></td>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="-" style = "width:50px;height:50px;font-size:20px" id = "sub"></td>
+			</tr>
+			<tr>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="1" style = "width:50px;height:50px;font-size:20px" id = "1"></td>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="2" style = "width:50px;height:50px;font-size:20px" id = "2"></td>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="3" style = "width:50px;height:50px;font-size:20px" id = "3"></td>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="/" style = "width:50px;height:50px;font-size:20px" id = "div"></td>
+			</tr>
+			<tr>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="0" style = "width:50px;height:50px;font-size:20px" id = "0"></td>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="." style = "width:50px;height:50px;font-size:20px" id = "."></td>
+				<td ><input onClick = "cellClick(this.value)" type = "button" value ="*" style = "width:50px;height:50px;font-size:20px" id = "mult"></td>
+			    <td ><input onClick = "calc()" type = "button" value ="=" style = "width:50px;height:50px;font-size:20px" id = "equal"></td>
+			</tr>
+            <tr>
+				<td colspan="2"><input onClick = " clear111()" type = "button" value ="清空" style = "width:110px;height:50px;font-size:20px" id = "mult"></td>
+                <td colspan="2"><input onClick = " ret()" type = "button" value ="删除" style = "width:110px;height:50px;font-size:20px" id = "mult"></td>
+			</tr>
+		</table>
+		<script	lanuage = "javascript">
+		//除了相等的点击事件
+		function cellClick(val){
+			$("output").value+=val;
+		}
+		//计算函数
+		function calc(){
+			var te =  $("output").value;
+			//在这里对result的返回值做一个判断,因为用户输入的可能是非法字符.
+			//如何判断一个字符串的合法性
+			var result = eval(te);
+			//var result1 = result.toFixed(2);
+			if(result==te||result==undefined){
+				alert("您输入的表达式不正确,请重新输入!");
+				$("output").value="";
+			}else{
+				$("output").value=result;
+			}
+		}
+		//清空数据输出区域
+		function clear111(){
+			$("output").value="";
+		}
+		//回退一格
+		function ret(){
+			var temp=$("output").value;
+			var length = temp.length-1;
+			temp=temp.substring(0,(length));
+			
+			//alert(temp.length);
+			$("output").value=temp;
+		}
+		//根据id返回实例对象
+		function $(id){
+			var temp = document.getElementById(id);
+			return temp;
+		}
+		</script>
+	</body>
+</html>

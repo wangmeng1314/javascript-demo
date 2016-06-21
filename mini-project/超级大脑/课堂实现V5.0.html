@@ -1,0 +1,270 @@
+<HTML>
+	<HEAD>
+		<TITLE>超强大脑训练-->终极版</TITLE>
+	</HEAD>
+
+	<BODY>
+		 选择关数:
+			<select id="selectGame">
+				<option value="-1">请选择</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+ 			</select>
+			<input type="button" value="开始" onclick="btnClick()">
+		<input type="button" value="请求提示" onclick="showHelp()">
+	</BODY>
+
+	<script>
+	
+		var gameSount=3;//默认是第三关，产生3*3格子
+			var passArray=new Array();//通关规则。"1,6","2,3"...
+//			initGame();
+		function initGame(){
+			//动态创建之前先判断是否存在
+			if($('mytable') != null){
+				document.body.removeChild($('mytable'));
+			}
+
+			//======动态创建表格开始=======
+			var table=document.createElement("table");
+			table.id="mytable";
+			table.border="1px";
+			table.align="center";
+  			var tempId=1;
+			//因为行有三年，所以循环创建行
+			for(var i=0;i<gameSount;i++){
+				var row=table.insertRow();// 创建行
+				//row中不是有三列
+				for(var j=0;j<gameSount;j++){
+					var id=tempId++;
+					var cell=row.insertCell();//创建列
+					cell.id=id;//埋下隐患
+					cell.height="90px";
+					cell.width="90px";
+					cell.onclick=cellClick;
+					cell.innerHTML=" ";
+				}
+			}
+			document.body.appendChild(table);
+			//alert(11);
+			//======动态创建表格结束=======
+
+			//======产生1~9中的八个不重复的数字开始=========
+			var all_ids_count=(gameSount*gameSount%2==0?(gameSount*gameSount):(gameSount*gameSount-1));//确实需要的id数量
+			//alert("需要随机的id数量："+all_ids_count);
+			//装id的随机数组，为什么要装，因为对于奇数的格子，需要空白一处
+			 var rIDs=new Array();
+			 if(gameSount%2==0){//不需要空白
+				for(var i=0;i<gameSount*gameSount;i++){
+					rIDs[i]=i+1;
+				}
+			 }else{//需要空白
+					for(var i=0;i<gameSount*gameSount-1;i++){
+					 var num1=Math.random();//产生的随机数范围是0.0 -  0.9
+					 var num2=num1*gameSount*gameSount+1//产生1-9的小数
+					 var num3=parseInt(num2);//对小数取得整数
+
+					 if(i==0){ //第一次装，不需要判断
+						rIDs[i]=num3;
+					 }else{ //往后每次都需要和数组中的每一位进行比较
+						var flag=true;//默认当前的数不存在于数组中
+						for(var j=0;j<rIDs.length;j++){
+							if(rIDs[j]==num3){
+								i--;
+								flag=false;
+							}
+						}
+						if(flag){
+							rIDs[i]=num3;
+						}
+					 }
+				 }
+			 }
+//alert("ids列表  "+rIDs);
+			//======产生1~9中的八个不重复的数字结束=========
+
+//==产生数字 1 2 3 4 1 2 34
+			var rNOs=new Array();
+
+		for(var i=0;i<all_ids_count;i++){
+			if(i<2){//如果是前两次
+				var number=parseInt(Math.random()*(all_ids_count/2)+1);
+				rNOs[i]=number;
+			}else{
+				var number=parseInt(Math.random()*(all_ids_count/2)+1);
+				var count=0;//当前的数字是不重复的
+				for(var j=0;j<rNOs.length;j++){
+					if(rNOs[j]==number){
+						count++;
+					}
+				}
+				if(count>=2){//此次无效
+					i--;
+				}else{
+					rNOs[j]=number;
+				}
+			}
+		}
+		 
+	//alert(rNOs);
+
+			//组合变形，实现功能
+			//1,4,6,3,5,9,7,2   2,1,2,1,4,4,3,3
+			for(var i=0;i<rIDs.length;i++){
+				var cellid = rIDs[i];
+				var cell = document.getElementById(cellid);
+				cell.innerHTML=rNOs[i];
+			}
+			
+			//==========通关规则 开始===============
+		//根据单元格的id取得单元格的内容，比较内容。
+			var passArrayIndex=0;
+			for(var i=0;i<gameSount*gameSount;i++){
+				//取得每一个单元格
+				var cellValue = $(i+1).innerText;
+				for(var j=i+1;j<gameSount*gameSount;j++){
+						var cellValueCurrent=$(j+1).innerText;
+						if(cellValue==cellValueCurrent){
+							passArray[passArrayIndex++]=(i+1)+","+(j+1);
+							//alert((i+1)+","+(j+1));
+						}
+				}
+			}
+			alert(passArray);
+		   //==========通关规则 结束===============	 
+		
+
+			//一次性定时器，4秒之后全部变黑
+			setTimeout(changeBgColor,4000);
+
+		}
+		function changeBgColor(mycolor){
+			var tt=document.getElementById("mytable");
+			 
+			for(var i=0;i<tt.rows.length;i++){
+				var row=tt.rows[i];
+
+				
+				for(var j=0;j<row.cells.length;j++){
+					row.cells[j].style.backgroundColor="black";
+				}
+			}	
+		}
+		
+
+		var click1=null;//第一次点击的数
+		var click2=null;//第二次点击的数
+		//单元格的点击事件处理函数
+		function cellClick(){
+			//取得事件源
+			var cell = event.srcElement;
+			cell.style.backgroundColor="white";
+			if(click1==null){//第一次点击
+				click1=cell;//单元格点击之后，存储单元格对象。
+			}else{
+				click2=cell;
+				if(click1.innerText != click2.innerText){
+					//alert("确实不相等:"+click1+","+click2);
+					setTimeout(changeBgColor,300);
+				}else{//如果相等了，则要从程序的提示库中删除 此对数据
+					
+					//alert("需要删除:    "+click1.id+","+click2.id);
+					removeArrayVal(click1.id+","+click2.id);//调用移除函数
+					alert(passArray);
+				}
+
+				click1=null; 
+				click2=null;
+				
+			}
+
+			if(ispass()){
+				//有可能有黑色的空白块，全部变白
+				changeColorToWhite();
+				alert("恭喜通关");
+				gameSount++;
+				initGame();
+
+			}
+		}
+
+		//移除数组中的值
+		function removeArrayVal(val){
+			for(var i=0;i<passArray.length;i++){
+				if(passArray[i]==val){//如果值相等
+					passArray.splice(i,1);
+				}
+			}
+		}
+
+		function ispass(){
+			var tt=document.getElementById("mytable");
+			var flag=true; 
+			for(var i=0;i<tt.rows.length;i++){
+				var row=tt.rows[i];
+				for(var j=0;j<row.cells.length;j++){
+					//通关的依据是 单元格上有数字的全部要变白
+					
+//alert("当前第:"+(i+1)+"行,当前第:"+(j+1)+"列。的  值"+(row.cells[j].innerText!="")+"颜色:"+(row.cells[j].style.backgroundColor!="black"));
+					if(row.cells[j].innerText!="" && row.cells[j].style.backgroundColor!="white"){
+						flag=false;
+						break;
+					}
+				}
+			}
+			
+			return flag;
+		}
+
+
+		function changeColorToWhite(){
+			var tt=document.getElementById("mytable");
+			 
+			for(var i=0;i<tt.rows.length;i++){
+				var row=tt.rows[i];
+
+				
+				for(var j=0;j<row.cells.length;j++){
+					row.cells[j].style.backgroundColor="white";
+				}
+			}	
+		}
+
+
+
+		//var passIndex=0;//默认从第一对数字开始提示
+		function showHelp(){
+			if(passArray.length==0){
+				alert("没有提示了！");
+			}else{
+				var ans=passArray[0];//"1,9"
+				var points = ans.split(",");//通过逗号分割为数组
+				$(points[0]).style.color="red";
+				$(points[1]).style.color="red";
+				removeArrayVal(ans);//此处已经提示了，从提示库中删除
+				//alert(ans);
+			}
+			
+			
+		}
+
+
+		function $(oid){
+			return document.getElementById(oid);
+		}
+
+		function btnClick(){
+			//取得选择的关卡
+			var selectVal = $('selectGame').value;
+			if(selectVal == -1 ){
+				alert("请您先选择");
+			}else{
+				gameSount=selectVal;
+				initGame();
+			}
+			
+		}
+	</script>
+</HTML>

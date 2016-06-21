@@ -1,0 +1,184 @@
+﻿<html>
+	<head>
+    	<title>
+        	<方格点灯>
+                <isindex>
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    </head>
+    <body>
+    	<center>
+        		<font style="font-size:60px" >方格点灯</font>
+			<div id = "txt1"></div>
+            <hr>
+            请选择关数：<select  id = "game_select">
+            <option value = '0' >请选择</option>
+            <option value = '1'  >1</option>
+            <option value = '2' selected = "selected">2</option>
+            <option value = '3' >3</option>
+            <option value = '4' >4</option>
+            <option value = '5' >5</option>
+            <option value = '6' >6</option>
+            <option value = '7' >7</option>
+            <option value = '8' >8</option>
+            <option value = '9' >9</option>
+            <option value = '10' >10</option>
+            </select>
+		<input type="button" value= "初始化"  onclick = "createTable()" />
+            <input type="button" value= "开始游戏"  onclick = "timeCount()"/>
+			<h6>游戏时间</h6>
+		<input type = "text" id = "txt">
+            <div id="div_content"></div>
+            <hr>
+        </center>
+        	<ol>
+          	<li>关卡：默认为第三关，玩家可以选择关卡直接进入。当玩家通过了一个关卡程序提示进入下一关。
+				  	<li>规则：点击某个黑色的方格，那么方格和它相邻的上下左右方格颜色会发生改。改变的规则是黑色白色。当黑色的方框全部变白，提示通关，并进入下一关。
+          </ol>
+    </body>
+    <script>
+		<!--变量定义区域-->
+		//计时的值寄存器
+		var time = 0;
+		//定时器返回值暂存
+		var timer = 0;
+    	window.onload = function(){
+		createTable();
+		startTime();
+		}
+		<!--绘制表格对象-->
+		function createTable(){
+			//加入欢迎字体，显示闪动的字体
+			//var str =  "welcome to my game";
+			//document.write(str.blink());//显示闪动字体
+			var divContent = document.getElementById("div_content");//获取游戏的容器
+			time = document.getElementById("game_select").value*5-1;      //计时变量初始化
+			var tableGame   = document.getElementById("tableGame"); //获取表格对象
+			if(tableGame!=null){
+				divContent.removeChild(tableGame);
+			}
+			var gameSelect = document.getElementById("game_select").value;
+			//动态创建标签
+			var table = document.createElement("table");
+			table.border = "3px";
+			table.id ="tableGame";
+			
+			for(var i=0;i<gameSelect;i++){//外层控制行数
+				//添加一行
+				var row = table.insertRow();
+				for(var j=0; j<gameSelect;j++){//内层控制列数
+					var cell = row.insertCell();
+					cell.innerText=i+","+j;
+					cell.id =i+","+j;
+					
+					cell.width = "80px";
+					cell.height = "80px";
+					cell.onclick = cellClick;
+					cell.style.backgroundColor = "black";
+				}
+			}
+			//将表格加入到div容器中
+			divContent.appendChild(table);
+		}
+		<!--点击事件处理-->
+		function cellClick(){
+			//event是html为我们提供的
+			var cell=event.srcElement.innerText;
+			//字符串分割函数
+			var cellPoint = cell.split(",");
+			//取得行列值
+			var x = cellPoint[0];
+			var y = cellPoint[1];
+			//alert(x+y);
+			//计算当前坐标的上下左右坐标
+			var up = (parseInt(x)-1)+ "," +y;//上
+			var down = (parseInt(x)+1)+ "," +y;//下
+			var left = x + "," +(parseInt(y)-1);//左
+			var right = x + "," +(parseInt(y)+1);//右
+			//测试
+			//alert("当前坐标:"+cellPoint+"左右坐标:"+left+"=="+right+"==上下坐标:"+up+"=="+down);
+			//改变颜色
+			changeColor(up);
+			//alert("hello");
+			changeColor(down);
+			changeColor(left);
+			changeColor(right);
+			changeColor(cell);
+			//alert("hello");
+			//检测是否通关
+			if(isPass()){
+				if(confirm("恭喜您过关，是否进入下一关！")){
+					var gameSelect = document.getElementById("game_select");
+					gameSelect.selectedIndex=gameSelect.selectedIndex+1;
+					createTable();
+				}
+			}
+		}
+		
+		<!--改变颜色-->
+		function changeColor(cellId){
+				var cell=document.getElementById(cellId);
+				if(cell!=null){
+					if(cell.style.backgroundColor=="white"){
+						cell.style.backgroundColor="black";
+					}else{
+						cell.style.backgroundColor="white";
+					}
+				}
+		}
+		<!--是否通关-->
+		function isPass(){
+			//标志位的选取，在程序里经常用到这样的一个套路。默认通关
+			var result = true;
+			//获得table对象
+			var table = document.getElementById("tableGame");
+			//获取表格的行数，行数和列数是一致的
+			var count=table.rows.length;
+			//alert(count);
+			for(var i = 0;i<count;i++){
+				var tableTr = table.rows[i];//获取当前行
+				for(var j = 0;j<count;j++){
+					if(tableTr.cells[j].style.backgroundColor!="white"){
+						result = false;
+					}	
+				}
+			}
+			return result;
+		}
+		<!--计时程序-->
+		function timeCount(){
+			time--;
+			document.getElementById("txt").value = time;
+		    timer = setTimeout("timeCount()",1000);
+			//判断是否到达终止条件
+			if(0==time){
+				clearTimeout(timer);
+				if(confirm("游戏时间到，想哟继续游戏吗？")){//判断是否继续游戏，继续自动重绘表格
+					createTable();
+				}else{
+					alert("您即将退出游戏！");
+					window.close();
+				}
+			}
+			<!--在这里我有个疑问，为何把关闭定时器的程序加到亲爱的定时器启动代码前面就无法起到作用呢?-->
+		}
+		function startTime(){
+			var today = new Date();
+			var hours = today.getHours();
+			var minutes= today.getMinutes();
+			var seconds= today.getSeconds();
+			minutes= checkTime(minutes);
+			seconds = checkTime(seconds);
+			document.getElementById("txt1").innerHTML=hours+":"+minutes+":"+seconds;
+			var t= setTimeout('startTime()',500);
+		}
+		function checkTime(i){
+			if(i<10){
+				i="0"+i;	
+			}
+			return i;
+		}
+		
+		
+    </script>
+</html>

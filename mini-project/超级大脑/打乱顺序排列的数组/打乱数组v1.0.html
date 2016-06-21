@@ -1,0 +1,31 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>createRandom</title>
+	</head>
+	<body>
+		<script>
+			//暂时不需要封装成函数
+			//在网上查找资料时发现，打乱扑克牌的那套思想可以用在我们打乱数组的过程中，行了，闲话不多说，开始走起！
+			//但是，我发现，这好像不太适合我们现在的情景！唉许,但是，偶数的情况下还可以的！
+			var numbers = new Array();
+			var highArray=new Array();
+			var lowArray=new Array();
+			for(var i = 0;i<16;i++){
+				numbers[i]=i+1;
+			}
+			for(var j =0;j<8;j++){//前半部分
+				highArray[j]=numbers[j];
+			}
+			for(var k = 8;k<16;k++){
+				lowArray[k-8]=numbers[k];
+			}
+			//exchange
+			for(var m =0;m<8;m++){
+				highArray.splice(m,0,lowArray[m]);
+			}
+			alert(highArray);//没有得到预期的效果
+			
+		</script>
+	</body>
+</html>
